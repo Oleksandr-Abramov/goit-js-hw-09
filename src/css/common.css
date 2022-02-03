@@ -38,8 +38,12 @@ img {
   display: flex;
   justify-content: center;
   position: absolute;
-  bottom: 30px;
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   /* margin-right: -50%; */
+}
+.btn {
+  height: 50px;
+  width: 80px;
 }
