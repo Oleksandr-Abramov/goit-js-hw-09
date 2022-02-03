@@ -1,6 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import '../css/common.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
   days: document.querySelector('[data-days]'),
@@ -8,25 +9,41 @@ const refs = {
   minutes: document.querySelector('[data-minutes]'),
   seconds: document.querySelector('[data-seconds]'),
   startBtn: document.querySelector('[data-start]'),
+  input: document.querySelector('#datetime-picker'),
 };
-let endOfTime = null;
+// refs.input.addEventListener('click', e => console.log(e));
+// console.log(refs.input);
 
+let endOfTime = null;
+let interval = null;
 const timer = {
   start() {
-    setInterval(() => {
+    interval = setInterval(() => {
+      refs.input.disabled = true;
       const currentTime = Date.now();
+
+      if (Math.floor(currentTime / 1000) === Math.floor(endOfTime / 1000)) {
+        return this.stop();
+      }
+
       const interval = endOfTime - currentTime;
       const counting = convertMs(interval);
       parsTime(counting);
     }, 1000);
   },
+  stop() {
+    clearInterval(interval);
+    refs.input.disabled = false;
+  },
 };
+
 const parsTime = ({ days, hours, minutes, seconds }) => {
   refs.days.textContent = days;
   refs.hours.textContent = hours;
   refs.minutes.textContent = minutes;
   refs.seconds.textContent = seconds;
 };
+
 refs.startBtn.disabled = true;
 
 const options = {
@@ -37,7 +54,7 @@ const options = {
   onClose(selectedDates) {
     endOfTime = selectedDates[0].getTime();
     if (endOfTime <= Date.now()) {
-      alert('!!!');
+      Notify.failure('Please choose a date in the future');
     } else {
       refs.startBtn.disabled = false;
     }
@@ -70,7 +87,6 @@ function pad(value) {
 }
 
 refs.startBtn.addEventListener('click', () => {
-  console.log('qweqwe');
   timer.start();
   refs.startBtn.disabled = true;
 });
