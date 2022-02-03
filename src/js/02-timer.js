@@ -13,7 +13,7 @@ const refs = {
 };
 // refs.input.addEventListener('click', e => console.log(e));
 // console.log(refs.input);
-
+ 
 let endOfTime = null;
 let interval = null;
 const timer = {

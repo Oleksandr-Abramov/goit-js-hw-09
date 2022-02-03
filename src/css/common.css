@@ -34,3 +34,12 @@ img {
 .field {
   margin-right: 18px;
 }
+.btns {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  /* margin-right: -50%; */
+}
